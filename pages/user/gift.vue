@@ -9,20 +9,6 @@ const tPwd = ref('')
 const withdrawFee = computed(() => withdrawFeeCount())
 const selectType = ref('withdraw')
 const showSectionType = ref(true)
-await useAsyncData(async () => {
-  if (siteStore.siteData.smsVerify === 3) {
-    if (!playerStore.playerInfo.smsVerify) {
-      navigateTo('/user/smsVerify')
-    }
-  }
-  if (!playerStore.playerInfo?.bankInfo) {
-    navigateTo('/user/bank')
-  }
-
-  if (playerStore.playerInfo.bankInfo.status !== 1) {
-    navigateTo('/user/bank')
-  }
-})
 // methods
 const goWithdraw = async () => {
   console.log(withdrawAmount.value, siteStore.siteData.minWithdrawAmount,

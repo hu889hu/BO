@@ -244,16 +244,16 @@ watch(
             <div class="form-group">
               <div class="position-relative">
                 <label>您的銀行</label>
-                <input type="text" name="acc" :value="playerStore.playerInfo.bankInfo.bankName" class="form-control"
-                  readonly>
+                <input type="text" name="acc" v-trim-input :value="playerStore.playerInfo.bankInfo.bankName"
+                  class="form-control" readonly>
               </div>
             </div>
             <!-- 戶名 -->
             <div class="form-group">
               <div class="position-relative">
                 <label>您的分行名稱</label>
-                <input type="text" name="name" :value="playerStore.playerInfo.bankInfo.branch" class="form-control"
-                  readonly>
+                <input type="text" name="name" v-trim-input :value="playerStore.playerInfo.bankInfo.branch"
+                  class="form-control" readonly>
               </div>
             </div>
             <!-- 我的資產 -->
@@ -268,16 +268,16 @@ watch(
             <div class="form-group">
               <div class="position-relative">
                 <label>您的帳戶號碼</label>
-                <input type="text" name="name" v-model="playerStore.playerInfo.bankInfo.accountNo" class="form-control"
-                  readonly>
+                <input type="text" name="name" v-trim-input v-model="playerStore.playerInfo.bankInfo.accountNo"
+                  class="form-control" readonly>
               </div>
             </div>
             <!-- 戶名 -->
             <div class="form-group">
               <div class="position-relative">
                 <label>您的帳戶戶名</label>
-                <input type="text" name="name" v-model="playerStore.playerInfo.bankInfo.account" class="form-control"
-                  readonly>
+                <input type="text" name="name" v-trim-input v-model="playerStore.playerInfo.bankInfo.account"
+                  class="form-control" readonly>
               </div>
             </div>
             <!-- 金額 -->

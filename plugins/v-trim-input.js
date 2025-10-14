@@ -3,6 +3,7 @@ export default defineNuxtPlugin((nuxtApp) => {
   nuxtApp.vueApp.directive('trim-input', {
     beforeMount(el) {
       el.addEventListener('input', (event) => {
+        if (event.isComposing) return
         const currentValue = event.target.value
         const trimmedValue = currentValue.replace(/\s+/g, '')
 

@@ -70,8 +70,19 @@ const onItem = (item: string) => {
 }
 
 const disableBet = ref(false)
+const betRoundNo = ref(1)
 const checkBetData = (tpite: string) => {
   console.log('selectProductOrder', selectProductOrder.value)
+  console.log(serverTime.value.currentRoundId, 'serverTime.value.currentRoundId');
+
+  if (betRoundNo.value === serverTime.value.currentRoundId) {
+    ElNotification({
+      message: '調整進行中，請勿重複送出',
+      type: 'error',
+      showClose: false
+    })
+    return
+  }
   selectProductOrder.value.validation = tpite
   if (!disableBet.value) {
     disableBet.value = true
@@ -108,6 +119,7 @@ const checkBetData = (tpite: string) => {
           selectProductOrder.value.piece.toString()
         const response = await orderStore.bet(selectProductOrder.value)
         if (response.success) {
+          betRoundNo.value = serverTime.value.currentRoundId
           // ElMessageBox.alert(
           //   `
           //      <p style="margin:0 0 8px 0"> ${t('期別')}: ${serverTime.value.currentRoundId} </p>

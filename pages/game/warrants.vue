@@ -117,7 +117,7 @@ const onPush = (path: string) => {
       </source>
     </video>
     <div class="section1">
-      <div class="wallet-list">
+      <div v-if="productList.length > 0" class="wallet-list">
         <div class="item" @click="onPush(item.validation)" v-for="(item, index) in productList" :key="index">
           <h3>{{ item.name || '-' }}</h3>
           <h2>進入系統</h2>
@@ -129,6 +129,7 @@ const onPush = (path: string) => {
           <h5>返回技術系統頁面</h5>
         </div>
       </div>
+      <div v-else class="load">數據加載中...</div>
     </div>
   </div>
 </template>
@@ -158,6 +159,10 @@ const onPush = (path: string) => {
     display: flex
     justify-content: center
     align-items: center
+    overflow: auto
+    @media (max-width: 768px)
+      display: block
+      padding: 100px 0
     .wallet-list
       display: flex
       justify-content: center
@@ -219,4 +224,7 @@ const onPush = (path: string) => {
           // transform: translateY(-6px) scale(1.02)
           box-shadow: 0 0 25px rgba(0, 255, 255, 0.5)
           border-color: rgba(0, 255, 255, 0.6)
+    .load
+      color: #fff
+      font-size: 2rem
 </style>
