@@ -12,10 +12,6 @@ const fetchSigninApi = ref({
   password: ''
 })
 
-const showPassword = (type: boolean) => {
-  passwordEyes.value = type
-}
-
 const setLogin = async () => {
   if (!fetchSigninApi.value.account) {
     ElMessage({
