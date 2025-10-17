@@ -320,21 +320,18 @@ watch(
     </div>
   </div>
 </template>
-
 <style scoped lang="sass">
+/* 基础样式 - 针对低配置设备优化 */
 .pages
   box-sizing: border-box
   @media screen and (max-width: 768px)
     padding: 0 10px 10px
-</style>
 
-<style scoped lang="sass">
 .tag
   position: relative
-  background: url(@/assets/image/index/withdraw.jpg)  no-repeat center / cover
-  padding: 120px 0 40px
-  // font-weight: 600
-  line-height: 1.3
+  background: url(@/assets/image/index/withdraw.jpg) no-repeat center / cover
+  padding: 60px 0 20px
+  line-height: 1.2
   color: #ffffff9a
   &::before
     position: absolute
@@ -346,132 +343,164 @@ watch(
     background: linear-gradient(to right, rgba(57, 76, 95, 0.75), transparent)
     pointer-events: none
     z-index: 0
-    display: block
   .tag-title
-    width: 1200px
+    width: 100%
     margin: 0 auto
-    max-width: 100%
     padding: 0 15px
     display: flex
     justify-content: space-between
     flex-direction: column
   h1
-    font-size: 58px
+    font-size: 36px
     color: white
-    margin-top: 10px
+    margin-top: 5px
   .tag-subtitle
     position: relative
-    padding-left: 40px
-    font-size: 16px
+    padding-left: 25px
+    font-size: 14px
     &::before
       content: ''
       position: absolute
       left: 0
       top: 50%
       transform: translateY(-50%)
-      width: 30px
+      width: 20px
       height: 2px
       background-color: #fff
   .link
     display: flex
     align-items: center
-    margin-top: 5.125rem
-    gap: 30px
+    margin-top: 2rem
+    gap: 15px
     font-weight: 400
     .icon
-      width: 15px
-      height: 15px
+      width: 12px
+      height: 12px
     a
       &:hover
         color: #aaceff
+
+/* 关键帧动画 - 简化版本 */
 @keyframes fadeInUp 
   0% 
     opacity: 0
-    transform: translateY(12px)
+    transform: translateY(8px)
   100% 
     opacity: 1
     transform: translateY(0)
+
 @keyframes fadeIn 
   0% 
     opacity: 0
   100% 
     opacity: 1
 
-
+/* 表单样式 - 针对低配置优化 */
 .inf-bg
-  max-width: 1200px
-  margin: 30px auto
+  width: 100%
+  margin: 15px auto
   background-color: #fff
-  padding: 40px 32px
-  border-radius: 14px
+  padding: 20px 16px
+  border-radius: 8px
   border: 1px solid #5ca6ff
-  animation: fadeInUp 0.7s ease forwards
+  animation: fadeInUp 0.5s ease forwards
   opacity: 0
   .ul-contact-form-container 
     background-color: #fff
-    padding: 40px 32px
-    border-radius: 14px
+    padding: 20px 16px
+    border-radius: 8px
     border: 1px solid #92acd9
-    flex: 1 1 46%
-    min-width: 320px
-    animation: fadeInUp 0.7s ease forwards
+    flex: 1 1 100%
+    min-width: 0
+    animation: fadeInUp 0.5s ease forwards
     opacity: 0
     &:nth-child(2)
-      animation-delay: 0.2s
+      animation-delay: 0.1s
       
   .ul-contact-form input, .ul-contact-form textarea 
     width: 100%
-    padding: 14px 16px
-    font-size: 1rem
-    font-weight: 600
+    padding: 10px 12px
+    font-size: 0.9rem
+    font-weight: 500
     border: 1px solid #ccc
-    border-radius: 10px
+    border-radius: 6px
     background-color: #fff
-    transition: border-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease
+    transition: border-color 0.2s ease
   .form-control:focus 
     color: #212529
     background-color: #fff
     border-color: #86b7fe
-    transform: scale(1.02)
     outline: 0
-    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out
-    box-shadow: 0 0  .25rem 2px rgba(13, 110, 253, .25)
+    box-shadow: 0 0 0.15rem 1px rgba(13, 110, 253, .25)
   .form-group
-    margin-bottom: clamp(15px, 1.58vw, 30px)
+    margin-bottom: 12px
     .position-relative
       position: relative
       label
         display: block
-        letter-spacing: 0.5px
-        margin-bottom: 8px
+        letter-spacing: 0.3px
+        margin-bottom: 6px
+        font-size: 0.9rem
       .eyes
         position: absolute
-        right: 10px
-        bottom: 15px
+        right: 8px
+        bottom: 12px
         cursor: pointer
   .ul-contact-form-container__title
-    font-size: 1.6rem
-    font-weight: 700
-    margin-bottom: 28px
-    border-left: 4px solid #007BFF
-    padding-left: 14px
+    font-size: 1.3rem
+    font-weight: 600
+    margin-bottom: 20px
+    border-left: 3px solid #007BFF
+    padding-left: 10px
     color: #222
-    animation: fadeIn 1s ease forwards
+    animation: fadeIn 0.8s ease forwards
     opacity: 0
   .ul-contact-form .update_password 
     width: 100%
-    padding: 14px 0
-    font-size: 18px
+    padding: 12px 0
+    font-size: 16px
     font-weight: 500
     color: #fff
     background-color: #28a745
     border: none
-    border-radius: 10px
+    border-radius: 6px
     cursor: pointer
     text-align: center
-    box-shadow: none
-    transition: background-color 0.3s ease, transform 0.15s ease
-    text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.562)
+    transition: background-color 0.2s ease
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.4)
     &:hover 
       background-color: #218838
+
+/* 移动端特定优化 */
+@media screen and (max-width: 480px)
+  .tag
+    padding: 40px 0 15px
+    h1
+      font-size: 28px
+    .tag-subtitle
+      font-size: 12px
+      padding-left: 20px
+      &::before
+        width: 15px
+    .link
+      margin-top: 1.5rem
+      gap: 10px
+      .icon
+        width: 10px
+        height: 10px
+  
+  .inf-bg
+    margin: 10px auto
+    padding: 15px 10px
+    .ul-contact-form-container 
+      padding: 15px 10px
+    .ul-contact-form input, .ul-contact-form textarea 
+      padding: 8px 10px
+      font-size: 0.85rem
+    .ul-contact-form-container__title
+      font-size: 1.1rem
+      margin-bottom: 15px
+    .ul-contact-form .update_password 
+      padding: 10px 0
+      font-size: 15px
 </style>
