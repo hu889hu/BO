@@ -127,7 +127,18 @@ export const useAuthStore = defineStore('auth', () => {
       })
       console.log(`signin : `, res)
       if (res.statusCode !== 200) {
-        res.statusCode === 400 ? null : ElMessage.error(`${t(res.message)}`)
+        // res.statusCode === 400 ? null : ElMessage.error(`${t(res.message)}`)
+        // return {
+        //   success: false
+        // }
+        if (res.statusCode === 401) {
+          if (res.message == '請聯繫客服') {
+            navigateTo('/error')
+          } else {
+            ElMessage.error(res.message)
+          }
+          console.log(res.message, 'res.message')
+        }
         return {
           success: false
         }
