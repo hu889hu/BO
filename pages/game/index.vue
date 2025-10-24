@@ -671,6 +671,7 @@ $background: rgba(0, 0, 0, 0.6)
     display: flex
     flex-direction: column
     justify-content: center
+    height: 0 
     z-index: 10
     transition: all .2s ease-in-out
     transform: translateY(50%)
@@ -680,6 +681,7 @@ $background: rgba(0, 0, 0, 0.6)
       transform: translateY(0)
       opacity: 1
       z-index: 99
+      height: auto !important
     .dropdown-item
       display: block
       padding: 0.8rem 10px
