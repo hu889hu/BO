@@ -394,14 +394,6 @@ const displayedActivities = computed(() => {
               </div>
             </div>
             <div class="right-box">
-              <!-- <div class="record-switch" @click="popupSwitch = !popupSwitch">
-                <div class="icon">
-                  <i class="fa-regular fa-address-book"></i>
-                </div>
-                <div class="font-title">
-                  {{ $lang('檢驗紀錄') }}
-                </div>
-              </div> -->
               <div class="menu" @click="systemSwitch = !systemSwitch">
                 系統選單 ▼
               </div>
