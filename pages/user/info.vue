@@ -4,7 +4,7 @@ const router = useRouter()
 const playerStore = usePlayerStore()
 const siteStore = useSiteStore()
 
-const { updatePassword, updateTrasactionPassword } = playerStore
+const { updatePassword, updateTrasactionPassword, updateInfo } = playerStore
 const pwd = ref({
   oPwd: '',
   nPwd: '',
@@ -89,6 +89,15 @@ const sendPasswordChange = async () => {
     }
   }
 }
+const playerData = ref({
+  username: playerStore?.playerInfo?.username,
+  mobile: playerStore?.playerInfo?.mobile
+})
+const updateUserInfo = async () => {
+  const res = await updateInfo(playerData.value)
+  console.log(res, 'res');
+  await playerStore.fetchInfo()
+}
 </script>
 
 <template>
@@ -130,8 +139,7 @@ const sendPasswordChange = async () => {
             <div class="form-group">
               <div class="position-relative">
                 <label>{{ $lang('職員名稱') }}</label>
-                <input type="text" name="name" :value="playerStore?.playerInfo?.username" readonly class="form-control">
-
+                <input type="text" name="name" v-model="playerData.username" class="form-control" />
               </div>
             </div>
 
@@ -139,11 +147,15 @@ const sendPasswordChange = async () => {
             <div class="form-group">
               <div class="position-relative">
                 <label>{{ $lang('職員電話') }}</label>
-                <input type="text" name="tel"
-                  :value="playerStore?.playerInfo?.countryCode + ' ' + playerStore?.playerInfo?.mobile" readonly
-                  class="form-control">
+                <div class="form-control">
+                  <input type="text" name="tel" v-model="playerData.mobile">
+                </div>
               </div>
             </div>
+
+            <!-- submit btn -->
+            <div class="btn btn-primary update_password" @click="updateUserInfo"><span
+                style="font-size: 20px;font-weight: bold;">{{ $lang('更新基本資料') }}</span></div>
           </div>
         </div>
 
