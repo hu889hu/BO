@@ -148,7 +148,7 @@ const updateUserInfo = async () => {
               <div class="position-relative">
                 <label>{{ $lang('職員電話') }}</label>
                 <div class="form-control">
-                  <input type="text" name="tel" v-model="playerData.mobile">
+                  <input type="number" name="tel" v-model="playerData.mobile">
                 </div>
               </div>
             </div>
