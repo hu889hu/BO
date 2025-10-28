@@ -94,6 +94,7 @@ const playerData = ref({
   mobile: playerStore?.playerInfo?.mobile
 })
 const updateUserInfo = async () => {
+  playerData.value.mobile = playerData.value.mobile.toString()
   const res = await updateInfo(playerData.value)
   console.log(res, 'res');
   await playerStore.fetchInfo()
