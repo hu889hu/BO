@@ -8,7 +8,13 @@ const { getListenkey } = PlayerStore
 const socket: any = ref(null)
 const socketConnected = ref(false)
 const serverTime = ref({})
-const productList = ref([])
+const productList = ref([
+  { name: "半導體系統", validation: "Semiconductor" },
+  { name: "絕緣材料系統", validation: "Silicon wafer" },
+  { name: "新興與特殊材料", validation: "III-V Microcircuit" },
+  { name: "AI 晶片系統", validation: "AI on Chip" },
+  { name: "矽光子系統", validation: "Silicon Photonics" },
+])
 const isFirstGet = ref(false)
 
 
@@ -31,72 +37,60 @@ const startConnectWebSocket = async () => {
   if (getListenkeyRes.success) {
     const runtimeConfig = useRuntimeConfig()
     const { POWERSOCKETURL } = runtimeConfig.public
-
-    // 检查 POWERSOCKETURL 是否存在
-    if (!POWERSOCKETURL) {
-      console.error('POWERSOCKETURL is undefined or null')
-      return
+    socket.value = new WebSocket(
+      `${POWERSOCKETURL}/${getListenkeyRes.data.listenkey}`
+    )
+    socket.value.onopen = (event) => {
+      console.log('Connected to socket', event)
+      socketConnected.value = true
+      sendMessage({
+        op: 'subscribe',
+        channel: ['product', 'order', 'round']
+      })
     }
-
-    // 检查 listenkey 是否存在
-    const listenkey = getListenkeyRes.data?.listenkey || getListenkeyRes?.listenkey
-    if (!listenkey) {
-      console.error('listenkey is undefined or null')
-      return
-    }
-
-    // 添加重试机制
-    const connectWithRetry = (url: string, retries: number = 3) => {
-      const ws = new WebSocket(url)
-      ws.onopen = (event) => {
-        console.log('Connected to socket', event)
-        socket.value = ws
-        socketConnected.value = true
-        sendMessage({
-          op: 'subscribe',
-          channel: ['product', 'order', 'round']
-        })
-      }
-      ws.onmessage = async (e) => {
-        const message = JSON.parse(e.data)
-        // console.log('收到來自 socket 的訊息', message)
-        const { event, data } = message
-
-        switch (event) {
-          case 'PRODUCT_UPDATE': {
-            productList.value = data.result
-            break
-          }
-          default:
-            break
+    socket.value.onmessage = async (e) => {
+      const message = JSON.parse(e.data)
+      // console.log('收到來自 socket 的訊息', message)
+      const { event, data } = message
+      switch (event) {
+        case 'SERVER_TIME': {
+          serverTime.value = data
+          break
         }
+        default:
+          break
       }
-      ws.onclose = async () => {
-        console.log('Disconnected from socket')
-        isFirstGet.value = true
-        socketConnected.value = false
-        if (reconnected.value && retries > 0) {
-          setTimeout(async () => {
-            console.log(`Retrying connection... ${retries} attempts left`)
-            connectWithRetry(url, retries - 1)
-          }, 3000)
+      switch (event) {
+        case 'PRODUCT_UPDATE': {
+          // productList.value = data.result
+          break
         }
+        default:
+          break
       }
-      ws.onerror = (error) => {
-        console.error('WebSocket error:', error)
-        ws.close()
+    }
+    socket.value.onclose = async () => {
+      console.log('Disconnected from socket')
+      isFirstGet.value = true
+      socketConnected.value = false
+      if (reconnected) {
+        setTimeout(async () => {
+          await startConnectWebSocket()
+          console.log('reconnected to socket')
+        }, 3000)
       }
     }
 
-    connectWithRetry(`${POWERSOCKETURL}/${listenkey}`)
-  } else {
-    console.error('Failed to get listenkey', getListenkeyRes)
+    socket.value.onerror = (error) => {
+      socketConnected.value = false
+      console.error('WebSocket error:', error)
+    }
   }
 }
 
 
 await onMounted(async () => {
-  await startConnectWebSocket()
+  // await startConnectWebSocket()
 })
 onBeforeUnmount(() => {
   reconnected.value = false
@@ -109,6 +103,8 @@ const onPush = (path: string) => {
   let pathStr = '/game?type=' + path
   navigateTo(pathStr)
 }
+console.log(productList, 'productList');
+
 </script>
 <template>
   <div class="page">
@@ -121,7 +117,7 @@ const onPush = (path: string) => {
         <div class="item" @click="onPush(item.validation)" v-for="(item, index) in productList" :key="index">
           <h3>{{ item.name || '-' }}</h3>
           <h2>進入系統</h2>
-          <h5>{{ item.validation[0] }}</h5>
+          <h5>{{ item.validation }}</h5>
         </div>
         <div class="item" @click="navigateTo('/user')">
           <h3>技術系統</h3>
