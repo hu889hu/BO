@@ -384,6 +384,7 @@ const formatMemo = (value: any) => {
     max-width: 100%
     .ul-cart-table
       width: 1200px
+      max-width: 100%
       margin: 20px auto
       text-align: -webkit-match-parent
       thead

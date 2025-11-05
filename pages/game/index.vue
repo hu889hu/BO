@@ -52,11 +52,20 @@ const clearBetData = () => {
   //   validation: ''
   // }
 }
-
+const localdatapro = ref([])
 const onType = (type: string) => {
   typeitem.value = type
   systemSwitch.value = false
-  let list = toRaw(productList.value)
+  const datrapro = localStorage.getItem('productList')
+  console.log(datrapro, 'datrapro');
+  if (!datrapro) {
+    return
+  }
+  localdatapro.value = JSON.parse(datrapro)
+
+  console.log(localdatapro.value, 'localdatapro.value');
+
+  let list = toRaw(localdatapro.value)
   typeLis.value = list.filter(item => item.validation[0] == typeitem.value)[0]
   console.log(typeLis.value, 'typeLis.value');
 
@@ -206,6 +215,9 @@ const startConnectWebSocket = async () => {
       switch (event) {
         case 'PRODUCT_UPDATE': {
           productList.value = data.result
+          const localproduct = JSON.stringify(productList.value)
+          localStorage.setItem('productList', localproduct)
+
           const type2 = route.query.type;
           console.log(route.query.type, 'route.query.type');
 
@@ -293,6 +305,7 @@ const handleDataInView = () => {
 }
 const randomTimer = ref()
 await onMounted(async () => {
+  onType(route.query.type)
   handleDataInView()
   randomTimer.value = setInterval(() => {
     handleDataInView()
@@ -446,7 +459,7 @@ const displayedActivities = computed(() => {
               </div>
               <div class="game-item-content">
                 <div class="game-item" :class="ckItem === ite ? 'active' : ''" @click="onItem(ite)"
-                  v-for="(ite, index) in typeLis.type" :key="index" v-if="productList.length > 0">
+                  v-for="(ite, index) in typeLis.type" :key="index" v-if="localdatapro.length > 0">
                   <h1>{{ ite }}</h1>
                 </div>
               </div>
