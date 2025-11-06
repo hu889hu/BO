@@ -264,9 +264,9 @@ const formatDate = (timestamp: string) => {
     max-width: 100%
     .ul-cart-table
       width: 1200px
-      max-width: 100%
       margin: 20px auto
-      text-align: -webkit-match-parent
+      @media screen and (max-width: 768px)
+        width: 100%
       thead
         font-weight: 700
         font-size: 16px
