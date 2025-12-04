@@ -46,6 +46,46 @@ export const useOrderStore = defineStore('order', () => {
       }
     }
   }
+  const queryWorkOrder = async (params: any) => {
+    try {
+      const res: any = await $API(`/power/order/query`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: getAccessToken()
+        },
+        body: JSON.stringify(params)
+      })
+      if (res.statusCode !== 200) {
+        res.statusCode === 400
+          ? null
+          : ElNotification({
+              title: `${t('查詢訂單紀錄')}`,
+              showClose: false,
+              message: `${t(res.message)}`
+            })
+        return {
+          success: false,
+          message: `${t(res.message)}`
+        }
+      }
+      return {
+        success: true,
+        data: res.data
+      }
+    } catch (error: any) {
+      console.log(`fetch player order error: `, error)
+      // ElNotification({
+      //   title: `${t('獲取訂單紀錄錯誤')}`,
+      //   showClose: false,
+      //   message: error.toString()
+      // })
+      return {
+        success: false,
+        message: error.toString()
+      }
+    }
+  }
   const bet = async (params: any) => {
     try {
       const res: any = await $API(`/power/bet`, {
@@ -101,6 +141,7 @@ export const useOrderStore = defineStore('order', () => {
   return {
     orders,
     queryOrder,
+    queryWorkOrder,
     bet
   }
 })

@@ -2,6 +2,7 @@
 const playerStore = usePlayerStore()
 const { t } = useI18n()
 const { getListenkey } = playerStore
+const { queryWorkOrder } = useOrderStore()
 const socket: any = ref(null)
 const socketConnected = ref(false)
 const isFirstGet = ref(false)
@@ -43,12 +44,12 @@ const startConnectWebSocket = async () => {
       const { event, data } = message
       switch (event) {
         case 'ORDER_UPDATE': {
-          isloading.value = true
-          ordertList.value = data.result.sort((a, b) => {
-            return (
-              new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-            )
-          })
+          // isloading.value = true
+          // ordertList.value = data.result.sort((a, b) => {
+          //   return (
+          //     new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+          //   )
+          // })
           break
         }
         default:
@@ -76,9 +77,17 @@ const startConnectWebSocket = async () => {
 
 
 onMounted(async () => {
-  await startConnectWebSocket()
+  // await startConnectWebSocket()
+  getWorkList()
 })
-
+const getWorkList = async () => {
+  let res = await queryWorkOrder({ limit: 30 })
+  isloading.value = true
+  if (res.data.total > 30) {
+    res = await queryWorkOrder({ limit: 150 })
+  }
+  ordertList.value = res.data.result
+}
 onBeforeUnmount(() => {
   reconnected.value = false
   closeWebSocket()
@@ -150,7 +159,7 @@ const formatDate = (timestamp: string) => {
                 </div>
               </td>
               <td>
-                {{ item.productName }}
+                {{ item.name }}
               </td>
             </tr>
           </tbody>
