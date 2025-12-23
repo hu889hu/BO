@@ -130,7 +130,7 @@ const formatDate = (timestamp: string) => {
     <div class="inf-bg">
       <div class="ul-contact-form-container__title">
         <div>您當前可換購數量為 <span style="color: #a34405;"> {{ new Intl.NumberFormat('zh-TW').format(playerWalletBalance)
-        }}</span></div>
+            }}</span></div>
         <div>可將您持有的USDT轉換為TWD（系統匯率：{{ rate }}）</div>
         <div>最低USDT數量為3125</div>
       </div>
@@ -149,7 +149,7 @@ const formatDate = (timestamp: string) => {
         </div>
         <div class="form-group">
           <div class="position-relative">
-            <label>{{ $lang('TWD') }}</label>
+            <label>{{ $lang('新臺幣') }}</label>
             <input type="number" name="TWD" v-model="toAmount" class="form-control" readonly>
           </div>
         </div>

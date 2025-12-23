@@ -40,6 +40,7 @@ export const useAuthStore = defineStore('auth', () => {
                 message: `${t(res.message)}`,
                 showClose: false
               })
+          navigateTo('/login')
           return false
         }
         return true
